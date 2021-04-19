@@ -6,6 +6,8 @@ import store from "../src/store";
 import { getCurrentThemeDetails } from "../src/selectors/themeSelectors";
 import * as customQueries from "./customQueries";
 import { MemoryRouter } from "react-router-dom";
+import { DndProvider } from "react-dnd";
+import TouchBackend from "react-dnd-touch-backend";
 
 const AllTheProviders: FC = ({ children }) => {
   const defaultTheme = getCurrentThemeDetails(store.getState());
@@ -13,7 +15,14 @@ const AllTheProviders: FC = ({ children }) => {
   return (
     <MemoryRouter>
       <Provider store={store}>
-        <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>
+        <DndProvider
+          backend={TouchBackend}
+          options={{
+            enableMouseEvents: true,
+          }}
+        >
+          <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>
+        </DndProvider>
       </Provider>
     </MemoryRouter>
   );
